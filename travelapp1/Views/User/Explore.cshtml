@@ -1,0 +1,62 @@
+﻿@model IEnumerable<DAL.PlacesToVisit>
+
+@{
+    ViewBag.Title = "Explore";
+}
+
+<h2>Explore</h2>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PlaceId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlaceName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ModeOfTransport)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlaceImage)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlaceId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlaceName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModeOfTransport)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                <img src="@Url.Content(item.PlaceImage)" width=400px;height =300px;>
+            </td>
+            <td>
+                @Html.ActionLink("Comment", "Commenting", new { id = item.PlaceId }, new { @class = "btn btn-success" })
+            </td>
+
+        </tr>
+    }
+
+</table>

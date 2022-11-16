@@ -1,0 +1,359 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Travelapp1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admins">
+          <Key>
+            <PropertyRef Name="AdminId" />
+          </Key>
+          <Property Name="AdminId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AdminEmail" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AdminPassword" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RememberMe" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Comments">
+          <Key>
+            <PropertyRef Name="CommentId" />
+          </Key>
+          <Property Name="CommentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CommentText" Type="nvarchar(max)" />
+          <Property Name="rating" Type="int" Nullable="false" />
+          <Property Name="PlaceId" Type="int" />
+          <Property Name="UserId" Type="int" />
+        </EntityType>
+        <EntityType Name="PlacesToVisits">
+          <Key>
+            <PropertyRef Name="PlaceId" />
+          </Key>
+          <Property Name="PlaceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlaceName" Type="nvarchar(max)" />
+          <Property Name="ModeOfTransport" Type="nvarchar(max)" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="Location" Type="char" MaxLength="10" />
+          <Property Name="PlaceImage" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TravelDetails">
+          <Key>
+            <PropertyRef Name="TravelId" />
+          </Key>
+          <Property Name="TravelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Location" Type="nvarchar(max)" />
+          <Property Name="CostOfTravel" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ConfirmPassword" Type="nvarchar(max)" />
+          <Property Name="RememberMe" Type="bit" Nullable="false" />
+          <Property Name="Mobile" Type="nchar" MaxLength="10" />
+          <Property Name="Photo" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_dbo_TravelDetails_dbo_Users_UserId">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TravelDetails" Type="Self.TravelDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TravelDetails">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_prodfk">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="PlacesToVisits" Type="Self.PlacesToVisits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PlacesToVisits">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_prodfk1">
+          <End Role="PlacesToVisits" Type="Self.PlacesToVisits" Multiplicity="0..1" />
+          <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlacesToVisits">
+              <PropertyRef Name="PlaceId" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="PlaceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_prodfk2">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Travelapp1ModelStoreContainer">
+          <EntitySet Name="Admins" EntityType="Self.Admins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlacesToVisits" EntityType="Self.PlacesToVisits" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TravelDetails" EntityType="Self.TravelDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_TravelDetails_dbo_Users_UserId" Association="Self.FK_dbo_TravelDetails_dbo_Users_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TravelDetails" EntitySet="TravelDetails" />
+          </AssociationSet>
+          <AssociationSet Name="fk_prodfk" Association="Self.fk_prodfk">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PlacesToVisits" EntitySet="PlacesToVisits" />
+          </AssociationSet>
+          <AssociationSet Name="fk_prodfk1" Association="Self.fk_prodfk1">
+            <End Role="PlacesToVisits" EntitySet="PlacesToVisits" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_prodfk2" Association="Self.fk_prodfk2">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Travelapp1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="AdminId" />
+          </Key>
+          <Property Name="AdminId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AdminEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AdminPassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RememberMe" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PlacesToVisit">
+          <Key>
+            <PropertyRef Name="PlaceId" />
+          </Key>
+          <Property Name="PlaceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlaceName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModeOfTransport" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="Location" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="PlaceImage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="Self.fk_prodfk" FromRole="PlacesToVisits" ToRole="Users" />
+          <NavigationProperty Name="Comments" Relationship="Travelapp1Model.fk_prodfk1" FromRole="PlacesToVisit" ToRole="Comment" />
+        </EntityType>
+        <EntityType Name="TravelDetail">
+          <Key>
+            <PropertyRef Name="TravelId" />
+          </Key>
+          <Property Name="TravelId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CostOfTravel" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_dbo_TravelDetails_dbo_Users_UserId" FromRole="TravelDetails" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ConfirmPassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RememberMe" Type="Boolean" Nullable="false" />
+          <Property Name="Mobile" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Photo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PlacesToVisits" Relationship="Self.fk_prodfk" FromRole="Users" ToRole="PlacesToVisits" />
+          <NavigationProperty Name="TravelDetails" Relationship="Self.FK_dbo_TravelDetails_dbo_Users_UserId" FromRole="Users" ToRole="TravelDetails" />
+          <NavigationProperty Name="Comments" Relationship="Travelapp1Model.fk_prodfk2" FromRole="User" ToRole="Comment" />
+        </EntityType>
+        <Association Name="fk_prodfk">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="PlacesToVisits" Type="Self.PlacesToVisit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PlacesToVisits">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_TravelDetails_dbo_Users_UserId">
+          <End Role="Users" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TravelDetails" Type="Self.TravelDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TravelDetails">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Travelapp1Entities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="Self.Admin" />
+          <EntitySet Name="PlacesToVisits" EntityType="Self.PlacesToVisit" />
+          <EntitySet Name="TravelDetails" EntityType="Self.TravelDetail" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="fk_prodfk" Association="Self.fk_prodfk">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PlacesToVisits" EntitySet="PlacesToVisits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_TravelDetails_dbo_Users_UserId" Association="Self.FK_dbo_TravelDetails_dbo_Users_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TravelDetails" EntitySet="TravelDetails" />
+          </AssociationSet>
+          <EntitySet Name="Comments" EntityType="Travelapp1Model.Comment" />
+          <AssociationSet Name="fk_prodfk1" Association="Travelapp1Model.fk_prodfk1">
+            <End Role="PlacesToVisit" EntitySet="PlacesToVisits" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_prodfk2" Association="Travelapp1Model.fk_prodfk2">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="CommentId" />
+          </Key>
+          <Property Name="CommentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CommentText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="rating" Type="Int32" Nullable="false" />
+          <Property Name="PlaceId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="PlacesToVisit" Relationship="Travelapp1Model.fk_prodfk1" FromRole="Comment" ToRole="PlacesToVisit" />
+          <NavigationProperty Name="User" Relationship="Travelapp1Model.fk_prodfk2" FromRole="Comment" ToRole="User" />
+        </EntityType>
+        <Association Name="fk_prodfk1">
+          <End Type="Travelapp1Model.PlacesToVisit" Role="PlacesToVisit" Multiplicity="0..1" />
+          <End Type="Travelapp1Model.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlacesToVisit">
+              <PropertyRef Name="PlaceId" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="PlaceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_prodfk2">
+          <End Type="Travelapp1Model.User" Role="User" Multiplicity="0..1" />
+          <End Type="Travelapp1Model.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Travelapp1ModelStoreContainer" CdmEntityContainer="Travelapp1Entities1">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="Travelapp1Model.Admin">
+              <MappingFragment StoreEntitySet="Admins">
+                <ScalarProperty Name="AdminId" ColumnName="AdminId" />
+                <ScalarProperty Name="AdminEmail" ColumnName="AdminEmail" />
+                <ScalarProperty Name="AdminPassword" ColumnName="AdminPassword" />
+                <ScalarProperty Name="RememberMe" ColumnName="RememberMe" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlacesToVisits">
+            <EntityTypeMapping TypeName="Travelapp1Model.PlacesToVisit">
+              <MappingFragment StoreEntitySet="PlacesToVisits">
+                <ScalarProperty Name="PlaceId" ColumnName="PlaceId" />
+                <ScalarProperty Name="PlaceName" ColumnName="PlaceName" />
+                <ScalarProperty Name="ModeOfTransport" ColumnName="ModeOfTransport" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="PlaceImage" ColumnName="PlaceImage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TravelDetails">
+            <EntityTypeMapping TypeName="Travelapp1Model.TravelDetail">
+              <MappingFragment StoreEntitySet="TravelDetails">
+                <ScalarProperty Name="TravelId" ColumnName="TravelId" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="CostOfTravel" ColumnName="CostOfTravel" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="Travelapp1Model.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="ConfirmPassword" ColumnName="ConfirmPassword" />
+                <ScalarProperty Name="RememberMe" ColumnName="RememberMe" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="Travelapp1Model.Comment">
+              <MappingFragment StoreEntitySet="Comments">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PlaceId" ColumnName="PlaceId" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="CommentText" ColumnName="CommentText" />
+                <ScalarProperty Name="CommentId" ColumnName="CommentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

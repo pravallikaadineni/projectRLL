@@ -1,0 +1,53 @@
+﻿@model IEnumerable<DAL.TravelDetail>
+
+@{
+    ViewBag.Title = "MyAlbums";
+}
+
+<h2>MyAlbums</h2>
+
+<p>
+    @Html.ActionLink("AddAlbum", "AddAlbum", null, new { @class = "btn btn-info btn-small" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TravelId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CostOfTravel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TravelId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CostOfTravel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditAlbum", new { id = item.TravelId }, new { @class = "btn btn-primary" }) |
+                @Html.ActionLink("Details", "AlbumDetails", new { id = item.TravelId }, new { @class = "btn btn-success" }) |
+                @Html.ActionLink("Delete", "DeleteAlbum", new { id = item.TravelId }, new { @class = "btn btn-danger" })
+                @Html.ActionLink("PlacesToVisit", "VisitingPlaces", new { id = item.Location }, new { @class = "btn btn-warning" })
+            </td>
+        </tr>
+    }
+
+</table>

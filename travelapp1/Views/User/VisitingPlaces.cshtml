@@ -1,0 +1,66 @@
+﻿@model IEnumerable<DAL.PlacesToVisit>
+
+@{
+    ViewBag.Title = "VisitingPlaces";
+}
+
+<h2>VisitingPlaces</h2>
+
+<p>
+    @Html.ActionLink("Add Place", "AddPlace", null, new { @class = "btn btn-info btn-small" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PlaceId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlaceName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ModeOfTransport)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlaceImage)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlaceId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlaceName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModeOfTransport)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                <img src="@Url.Content(item.PlaceImage)" width=350px;height =300px;>
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditPlace", new { id = item.PlaceId }, new { @class = "btn btn-success" }) |
+                @Html.ActionLink("Details", "PlaceDetails", new { id = item.PlaceId }, new { @class = "btn btn-primary" }) |
+                @Html.ActionLink("Delete", "DeletePlace", new { id = item.PlaceId }, new { @class = "btn btn-danger" })
+                @Html.ActionLink("SeeComments", "ViewComment", new { id = item.PlaceId }, new { @class = "btn btn-warning" })
+            </td>
+        </tr>
+    }
+
+</table>
+@Html.ActionLink("MyAlbums", "MyAlbums")
